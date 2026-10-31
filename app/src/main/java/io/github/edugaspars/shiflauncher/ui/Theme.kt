@@ -43,6 +43,7 @@ fun paletteFor(mode: ThemeMode): ShifPalette = when (mode) {
     ThemeMode.WHITE -> ShifPalette(mode, Color.White, Color.White, Color(0xFF111111), false, true, false, false)
     ThemeMode.MONO_BLACK -> ShifPalette(mode, Color.Black, Color.Black, Color.White, false, false, true, false)
     ThemeMode.KINDLE -> ShifPalette(mode, Color(0xFFF7F5F0), Color(0xFFF7F5F0), Color(0xFF111111), false, true, true, true)
+    ThemeMode.KINDLE_DARK -> ShifPalette(mode, Color.Black, Color.Black, Color(0xFFE8E4DA), false, false, true, true)
 }
 
 /** Resolve "seguir o sistema" para preto ou branco. */

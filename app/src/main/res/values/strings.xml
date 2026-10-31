@@ -106,4 +106,6 @@
     <string name="step_accessibility_desc">For lock, notification shade and navigation gestures</string>
     <string name="setup_done">Done</string>
     <string name="setup_later">Do it later</string>
+    <string name="theme_kindle_dark">Kindle black</string>
+    <string name="theme_short_kindle_dark">Kindle black</string>
 </resources>

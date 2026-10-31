@@ -8,8 +8,8 @@ import org.json.JSONObject
 
 enum class SwipeDownAction { NOTIFICATIONS, SEARCH, NONE }
 
-/** WALLPAPER, BLACK, WHITE, MONO_BLACK = preto e branco, KINDLE = branco e preto, SYSTEM = segue o sistema. */
-enum class ThemeMode { WALLPAPER, BLACK, WHITE, MONO_BLACK, KINDLE, SYSTEM }
+/** WALLPAPER, BLACK, WHITE, MONO_BLACK = preto e branco, KINDLE = branco e preto, KINDLE_DARK = Kindle preto, SYSTEM = segue o sistema. */
+enum class ThemeMode { WALLPAPER, BLACK, WHITE, MONO_BLACK, KINDLE, KINDLE_DARK, SYSTEM }
 
 /** Como abrir o resumo de notificações de um app. */
 enum class NotificationPanelStyle { INLINE, SHEET }

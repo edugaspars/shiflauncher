@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -221,6 +222,7 @@ private fun themeLabel(mode: ThemeMode) = when (mode) {
     ThemeMode.WHITE -> R.string.theme_white
     ThemeMode.MONO_BLACK -> R.string.theme_mono_black
     ThemeMode.KINDLE -> R.string.theme_kindle
+    ThemeMode.KINDLE_DARK -> R.string.theme_kindle_dark
     ThemeMode.SYSTEM -> R.string.theme_system
 }
 
@@ -244,7 +246,7 @@ private fun Category(icon: ImageVector, title: Int, summary: String, onClick: ()
 private fun AppearancePage(settings: LauncherSettings, prefs: Prefs, onRequestCalendar: () -> Unit) {
     Label(R.string.theme)
     val modes = ThemeMode.entries
-    for (row in modes.chunked(3)) {
+    for (row in modes.chunked(4)) {
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
             for (mode in row) {
                 ThemePreview(mode, selected = settings.theme == mode, Modifier.weight(1f)) {
@@ -318,6 +320,7 @@ private fun themeShortLabel(mode: ThemeMode) = when (mode) {
     ThemeMode.WHITE -> R.string.theme_white
     ThemeMode.MONO_BLACK -> R.string.theme_short_mono
     ThemeMode.KINDLE -> R.string.theme_short_kindle
+    ThemeMode.KINDLE_DARK -> R.string.theme_short_kindle_dark
     ThemeMode.SYSTEM -> R.string.theme_short_system
 }
 
@@ -663,7 +666,7 @@ private fun Page(title: Int, onBack: () -> Unit, content: @Composable () -> Unit
 }
 
 @Composable
-private fun Card(onClick: () -> Unit, highlight: Boolean = false, content: @Composable () -> Unit) {
+private fun Card(onClick: () -> Unit, highlight: Boolean = false, content: @Composable RowScope.() -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier

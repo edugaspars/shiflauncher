@@ -105,4 +105,6 @@
     <string name="step_accessibility_desc">Para bloquear, abrir a aba de notificações e os gestos de navegação</string>
     <string name="setup_done">Concluir</string>
     <string name="setup_later">Fazer depois</string>
+    <string name="theme_kindle_dark">Kindle preto</string>
+    <string name="theme_short_kindle_dark">Kindle preto</string>
 </resources>
