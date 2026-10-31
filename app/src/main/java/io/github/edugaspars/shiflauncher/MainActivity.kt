@@ -54,6 +54,7 @@ import io.github.edugaspars.shiflauncher.ui.AppActions
 import io.github.edugaspars.shiflauncher.ui.AppDrawer
 import io.github.edugaspars.shiflauncher.ui.HomeScreen
 import io.github.edugaspars.shiflauncher.ui.SettingsScreen
+import io.github.edugaspars.shiflauncher.ui.SettingsPage
 import io.github.edugaspars.shiflauncher.ui.ShifTheme
 
 enum class Screen { HOME, DRAWER, SETTINGS }
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
     private var screen by mutableStateOf(Screen.HOME)
     private var searchFocus by mutableStateOf(false)
     private var resumeTick by mutableIntStateOf(0)
+    private var settingsStart by mutableStateOf(SettingsPage.ROOT)
 
     private val calendarPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { resumeTick++ }
@@ -80,6 +82,11 @@ class MainActivity : ComponentActivity() {
         )
         super.onCreate(savedInstanceState)
         val app = application as ShifApp
+        // Primeira vez: abre o assistente de configuração.
+        if (savedInstanceState == null && !app.prefs.settings.value.setupDone) {
+            settingsStart = SettingsPage.SETUP
+            screen = Screen.SETTINGS
+        }
         // Launcher não "fecha" com voltar: na tela inicial o gesto não faz nada.
         // (Gaveta e configurações registram o próprio BackHandler, que tem prioridade.)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -206,7 +213,7 @@ class MainActivity : ComponentActivity() {
                     }
                 },
                 onDoubleTap = { if (settings.doubleTapLock) SystemActions.lockScreen() },
-                onLongPress = { screen = Screen.SETTINGS },
+                onLongPress = { settingsStart = SettingsPage.ROOT; screen = Screen.SETTINGS },
             )
             AnimatedVisibility(
                 visible = screen == Screen.DRAWER,
@@ -229,11 +236,14 @@ class MainActivity : ComponentActivity() {
                     settings = settings,
                     prefs = app.prefs,
                     favorites = favorites,
+                    allApps = visible,
                     hiddenApps = hidden,
                     resumeTick = resumeTick,
+                    isDefaultLauncher = remember(resumeTick) { isDefaultLauncher() },
+                    startPage = settingsStart,
                     onRequestCalendar = ::requestCalendar,
                     onSetDefault = ::requestDefaultLauncher,
-                    onClose = { screen = Screen.HOME },
+                    onClose = { screen = Screen.HOME; settingsStart = SettingsPage.ROOT },
                 )
             }
         }

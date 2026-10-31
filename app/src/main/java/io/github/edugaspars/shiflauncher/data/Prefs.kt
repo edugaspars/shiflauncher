@@ -27,6 +27,7 @@ data class LauncherSettings(
     val swipeDown: SwipeDownAction = SwipeDownAction.NOTIFICATIONS,
     val navGestures: Boolean = false,
     val navLine: Boolean = true,
+    val setupDone: Boolean = false,
 )
 
 const val MAX_FAVORITES = 8
@@ -58,6 +59,7 @@ class Prefs(context: Context) {
             doubleTapLock = sp.getBoolean("doubleTapLock", d.doubleTapLock),
             navGestures = sp.getBoolean("navGestures", d.navGestures),
             navLine = sp.getBoolean("navLine", d.navLine),
+            setupDone = sp.getBoolean("setupDone", d.setupDone),
             swipeDown = runCatching {
                 SwipeDownAction.valueOf(sp.getString("swipeDown", null) ?: d.swipeDown.name)
             }.getOrDefault(d.swipeDown),
@@ -80,6 +82,7 @@ class Prefs(context: Context) {
             .putString("swipeDown", s.swipeDown.name)
             .putBoolean("navGestures", s.navGestures)
             .putBoolean("navLine", s.navLine)
+            .putBoolean("setupDone", s.setupDone)
             .apply()
     }
 
@@ -99,6 +102,8 @@ class Prefs(context: Context) {
         list.removeAt(i); list.add(j, key)
         s.copy(favorites = list)
     }
+
+    fun setFavorites(keys: List<String>) = update { it.copy(favorites = keys.take(MAX_FAVORITES)) }
 
     fun setHidden(key: String, hidden: Boolean) = update { s ->
         s.copy(
