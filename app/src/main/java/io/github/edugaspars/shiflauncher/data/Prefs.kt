@@ -8,11 +8,18 @@ import org.json.JSONObject
 
 enum class SwipeDownAction { NOTIFICATIONS, SEARCH, NONE }
 
+/** WALLPAPER, BLACK, WHITE, MONO_BLACK = preto e branco, KINDLE = branco e preto, SYSTEM = segue o sistema. */
+enum class ThemeMode { WALLPAPER, BLACK, WHITE, MONO_BLACK, KINDLE, SYSTEM }
+
+/** Como abrir o resumo de notificações de um app. */
+enum class NotificationPanelStyle { INLINE, SHEET }
+
 data class LauncherSettings(
     val favorites: List<String> = emptyList(),
     val hidden: Set<String> = emptySet(),
     val renames: Map<String, String> = emptyMap(),
-    val blackBackground: Boolean = false,
+    val theme: ThemeMode = ThemeMode.WALLPAPER,
+    val notificationPanel: NotificationPanelStyle = NotificationPanelStyle.INLINE,
     val showIcons: Boolean = true,
     val showNotifications: Boolean = true,
     val showCalendar: Boolean = false,
@@ -39,7 +46,12 @@ class Prefs(context: Context) {
             renames = sp.getString("renames", null)?.let { s ->
                 val o = JSONObject(s); o.keys().asSequence().associateWith { o.getString(it) }
             } ?: d.renames,
-            blackBackground = sp.getBoolean("blackBackground", d.blackBackground),
+            theme = runCatching { ThemeMode.valueOf(sp.getString("theme", null)!!) }.getOrElse {
+                if (sp.getBoolean("blackBackground", false)) ThemeMode.BLACK else d.theme
+            },
+            notificationPanel = runCatching {
+                NotificationPanelStyle.valueOf(sp.getString("notificationPanel", null)!!)
+            }.getOrDefault(d.notificationPanel),
             showIcons = sp.getBoolean("showIcons", d.showIcons),
             showNotifications = sp.getBoolean("showNotifications", d.showNotifications),
             showCalendar = sp.getBoolean("showCalendar", d.showCalendar),
@@ -59,7 +71,8 @@ class Prefs(context: Context) {
             .putString("favorites", JSONArray(s.favorites).toString())
             .putStringSet("hidden", s.hidden)
             .putString("renames", JSONObject(s.renames).toString())
-            .putBoolean("blackBackground", s.blackBackground)
+            .putString("theme", s.theme.name)
+            .putString("notificationPanel", s.notificationPanel.name)
             .putBoolean("showIcons", s.showIcons)
             .putBoolean("showNotifications", s.showNotifications)
             .putBoolean("showCalendar", s.showCalendar)

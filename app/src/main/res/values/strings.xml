@@ -22,8 +22,6 @@
     <string name="section_favorites">Favorites</string>
     <string name="section_hidden">Hidden apps</string>
     <string name="section_system">System</string>
-    <string name="black_background">Pure black background</string>
-    <string name="black_background_desc">Off = use your wallpaper</string>
     <string name="show_icons">Show icons</string>
     <string name="show_notifications">Show notifications in the list</string>
     <string name="show_calendar">Show next calendar event</string>
@@ -54,4 +52,21 @@
     <string name="nav_gestures_desc">Swipe up from the bottom: home. Swipe up and hold: recents. Swipe sideways on the bottom: previous app. Swipe in from either side: back.</string>
     <string name="nav_line">Show gesture line</string>
     <string name="nav_hint">To hide the system buttons, run once on the PC: adb shell settings put global force_fsg_nav_bar 1 (see README).</string>
+    <string name="theme">Theme</string>
+    <string name="theme_wallpaper">Wallpaper</string>
+    <string name="theme_black">Black</string>
+    <string name="theme_white">White</string>
+    <string name="theme_mono_black">Black &amp; white (monochrome)</string>
+    <string name="theme_kindle">Kindle (white &amp; black)</string>
+    <string name="theme_system">Follow system (black/white)</string>
+    <string name="notification_panel">Notification summary</string>
+    <string name="notification_panel_inline">Expand below the app</string>
+    <string name="notification_panel_sheet">Card from the bottom</string>
+    <string name="notification_panel_hint">Long-press the right half of an app with notifications to see them. The left half opens the app menu.</string>
+    <string name="reply">Reply</string>
+    <string name="send">Send</string>
+    <string name="clear_all">Clear all</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="open">Open</string>
+    <string name="no_notifications">No notifications</string>
 </resources>

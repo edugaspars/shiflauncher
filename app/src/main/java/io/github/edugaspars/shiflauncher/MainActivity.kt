@@ -7,6 +7,15 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+import android.graphics.drawable.ColorDrawable
+import android.view.WindowManager
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.toArgb
+import androidx.core.view.WindowCompat
+import io.github.edugaspars.shiflauncher.ui.LocalPalette
+import io.github.edugaspars.shiflauncher.ui.ShifPalette
+import io.github.edugaspars.shiflauncher.ui.resolvedPalette
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -71,10 +80,38 @@ class MainActivity : ComponentActivity() {
         )
         super.onCreate(savedInstanceState)
         val app = application as ShifApp
+        // Launcher não "fecha" com voltar: na tela inicial o gesto não faz nada.
+        // (Gaveta e configurações registram o próprio BackHandler, que tem prioridade.)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                screen = Screen.HOME
+            }
+        })
         setContent {
-            ShifTheme {
+            val settings by app.prefs.settings.collectAsStateWithLifecycle()
+            val palette = resolvedPalette(settings.theme)
+            SideEffect { applyWindowTheme(palette) }
+            ShifTheme(palette) {
                 LauncherRoot(app)
             }
+        }
+    }
+
+    /**
+     * Fora do modo papel de parede a janela fica opaca com a cor do tema, assim a
+     * miniatura nos recentes e as transições mostram o fundo do ShifLauncher.
+     */
+    private fun applyWindowTheme(palette: ShifPalette) {
+        if (palette.wallpaper) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER)
+            window.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER)
+            window.setBackgroundDrawable(ColorDrawable(palette.background.toArgb()))
+        }
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = palette.light
+            isAppearanceLightNavigationBars = palette.light
         }
     }
 
@@ -151,7 +188,7 @@ class MainActivity : ComponentActivity() {
         Box(
             Modifier
                 .fillMaxSize()
-                .background(if (settings.blackBackground) Color.Black else Color.Transparent)
+                .background(LocalPalette.current.background)
         ) {
             HomeScreen(
                 favorites = favorites,

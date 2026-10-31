@@ -127,7 +127,7 @@ fun AppDrawer(
         }
     }
 
-    val background = if (settings.blackBackground) Color.Black else Color.Black.copy(alpha = 0.82f)
+    val background = LocalPalette.current.surface
     Box(
         Modifier
             .fillMaxSize()
@@ -145,8 +145,8 @@ fun AppDrawer(
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White.copy(alpha = 0.12f),
-                    unfocusedContainerColor = Color.White.copy(alpha = 0.08f),
+                    focusedContainerColor = LocalPalette.current.fg.copy(alpha = 0.12f),
+                    unfocusedContainerColor = LocalPalette.current.fg.copy(alpha = 0.08f),
                 ),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
                 keyboardActions = KeyboardActions(onGo = { shown.firstOrNull()?.let(::launchAndClose) }),
@@ -168,7 +168,7 @@ fun AppDrawer(
                         item {
                             Text(
                                 stringResource(R.string.no_results),
-                                color = Color.White.copy(alpha = 0.6f),
+                                color = LocalPalette.current.fg.copy(alpha = 0.6f),
                                 modifier = Modifier.padding(vertical = 16.dp),
                             )
                         }
@@ -181,6 +181,7 @@ fun AppDrawer(
                             large = false,
                             shadow = false,
                             menuOpen = menuFor == app.key,
+                panelStyle = settings.notificationPanel,
                             onClick = { launchAndClose(app) },
                             onLongClick = { menuFor = app.key },
                             menu = {
@@ -294,7 +295,7 @@ fun AlphabetScroller(
                 fontSize = 12.sp,
                 fontWeight = if (letter == current) FontWeight.Bold else FontWeight.Normal,
                 color = if (letter == current) MaterialTheme.colorScheme.primary
-                else Color.White.copy(alpha = 0.55f + 0.45f * influence),
+                else LocalPalette.current.fg.copy(alpha = 0.55f + 0.45f * influence),
                 modifier = Modifier.graphicsLayer {
                     translationX = -waveShift * influence
                     scaleX = 1f + influence

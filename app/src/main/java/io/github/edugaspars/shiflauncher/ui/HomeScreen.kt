@@ -57,7 +57,7 @@ fun HomeScreen(
     onLongPress: () -> Unit,
 ) {
     val context = LocalContext.current
-    val shadow = !settings.blackBackground
+    val shadow = LocalPalette.current.wallpaper
     val threshold = with(LocalDensity.current) { 64.dp.toPx() }
     val swipeUp by rememberUpdatedState(onSwipeUp)
     val swipeDown by rememberUpdatedState(onSwipeDown)
@@ -112,7 +112,7 @@ fun HomeScreen(
         val noRipple = remember { MutableInteractionSource() }
         Text(
             text = DateFormat.format(timePattern, now).toString(),
-            color = Color.White,
+            color = LocalPalette.current.fg,
             fontSize = 64.sp,
             fontWeight = FontWeight.Thin,
             style = MaterialTheme.typography.displayLarge.onWallpaper(shadow),
@@ -122,7 +122,7 @@ fun HomeScreen(
         )
         Text(
             text = DateFormat.format(datePattern, now).toString().replaceFirstChar { it.titlecase(locale) },
-            color = Color.White.copy(alpha = 0.85f),
+            color = LocalPalette.current.fg.copy(alpha = 0.85f),
             fontSize = 16.sp,
             style = MaterialTheme.typography.bodyLarge.onWallpaper(shadow),
             modifier = Modifier.clickable(noRipple, null) {
@@ -134,7 +134,7 @@ fun HomeScreen(
         event?.let {
             Text(
                 text = it,
-                color = Color.White.copy(alpha = 0.7f),
+                color = LocalPalette.current.fg.copy(alpha = 0.7f),
                 fontSize = 14.sp,
                 maxLines = 1,
                 style = MaterialTheme.typography.bodyMedium.onWallpaper(shadow),
@@ -147,7 +147,7 @@ fun HomeScreen(
         if (favorites.isEmpty()) {
             Text(
                 text = stringResource(R.string.empty_favorites),
-                color = Color.White.copy(alpha = 0.7f),
+                color = LocalPalette.current.fg.copy(alpha = 0.7f),
                 fontSize = 15.sp,
                 style = MaterialTheme.typography.bodyMedium.onWallpaper(shadow),
             )
@@ -160,6 +160,7 @@ fun HomeScreen(
                 large = true,
                 shadow = shadow,
                 menuOpen = menuFor == app.key,
+                panelStyle = settings.notificationPanel,
                 onClick = { actions.launch(app) },
                 onLongClick = { menuFor = app.key },
                 menu = {

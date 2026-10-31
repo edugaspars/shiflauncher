@@ -21,8 +21,6 @@
     <string name="section_favorites">Favoritos</string>
     <string name="section_hidden">Apps ocultos</string>
     <string name="section_system">Sistema</string>
-    <string name="black_background">Fundo preto</string>
-    <string name="black_background_desc">Desligado = usa seu papel de parede</string>
     <string name="show_icons">Mostrar ícones</string>
     <string name="show_notifications">Mostrar notificações na lista</string>
     <string name="show_calendar">Mostrar próximo evento da agenda</string>
@@ -53,4 +51,21 @@
     <string name="nav_gestures_desc">Deslizar de baixo para cima: início. Deslizar para cima e segurar: recentes. Deslizar para os lados embaixo: app anterior. Deslizar de uma lateral para dentro: voltar.</string>
     <string name="nav_line">Mostrar linha de gestos</string>
     <string name="nav_hint">Para esconder os botões do sistema, rode uma vez no PC: adb shell settings put global force_fsg_nav_bar 1 (veja o README).</string>
+    <string name="theme">Tema</string>
+    <string name="theme_wallpaper">Papel de parede</string>
+    <string name="theme_black">Preto</string>
+    <string name="theme_white">Branco</string>
+    <string name="theme_mono_black">Preto e branco (monocromático)</string>
+    <string name="theme_kindle">Kindle (branco e preto)</string>
+    <string name="theme_system">Seguir o sistema (preto/branco)</string>
+    <string name="notification_panel">Resumo de notificações</string>
+    <string name="notification_panel_inline">Expandir abaixo do app</string>
+    <string name="notification_panel_sheet">Card vindo de baixo</string>
+    <string name="notification_panel_hint">Segure a metade direita de um app com notificações para vê-las. A metade esquerda abre o menu do app.</string>
+    <string name="reply">Responder</string>
+    <string name="send">Enviar</string>
+    <string name="clear_all">Limpar tudo</string>
+    <string name="dismiss">Dispensar</string>
+    <string name="open">Abrir</string>
+    <string name="no_notifications">Sem notificações</string>
 </resources>

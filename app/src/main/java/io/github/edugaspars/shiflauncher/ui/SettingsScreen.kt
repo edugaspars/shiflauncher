@@ -39,6 +39,8 @@ import io.github.edugaspars.shiflauncher.data.AppEntry
 import io.github.edugaspars.shiflauncher.data.LauncherSettings
 import io.github.edugaspars.shiflauncher.data.Prefs
 import io.github.edugaspars.shiflauncher.data.SwipeDownAction
+import io.github.edugaspars.shiflauncher.data.ThemeMode
+import io.github.edugaspars.shiflauncher.data.NotificationPanelStyle
 import io.github.edugaspars.shiflauncher.gestures.SystemActions
 import io.github.edugaspars.shiflauncher.gestures.startSafely
 import io.github.edugaspars.shiflauncher.notifications.NotificationStore
@@ -62,7 +64,7 @@ fun SettingsScreen(
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(LocalPalette.current.surface.copy(alpha = 1f))
             .systemBarsPadding()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 24.dp, vertical = 16.dp),
@@ -71,20 +73,40 @@ fun SettingsScreen(
             Text(
                 stringResource(R.string.settings),
                 fontSize = 30.sp,
-                color = Color.White,
+                color = LocalPalette.current.fg,
                 modifier = Modifier.weight(1f),
             )
             TextButton(onClick = onClose) { Text(stringResource(R.string.back)) }
         }
 
         Section(R.string.section_appearance)
-        SwitchRow(R.string.black_background, settings.blackBackground, stringResource(R.string.black_background_desc)) {
-            prefs.update { s -> s.copy(blackBackground = it) }
-        }
+        RadioGroup(
+            R.string.theme,
+            listOf(
+                ThemeMode.WALLPAPER to R.string.theme_wallpaper,
+                ThemeMode.BLACK to R.string.theme_black,
+                ThemeMode.WHITE to R.string.theme_white,
+                ThemeMode.MONO_BLACK to R.string.theme_mono_black,
+                ThemeMode.KINDLE to R.string.theme_kindle,
+                ThemeMode.SYSTEM to R.string.theme_system,
+            ),
+            settings.theme,
+        ) { v -> prefs.update { it.copy(theme = v) } }
         SwitchRow(R.string.show_icons, settings.showIcons) { prefs.update { s -> s.copy(showIcons = it) } }
         SwitchRow(R.string.show_notifications, settings.showNotifications) {
             prefs.update { s -> s.copy(showNotifications = it) }
             if (it && !notificationAccess) SystemActions.openNotificationAccessSettings(context)
+        }
+        if (settings.showNotifications) {
+            RadioGroup(
+                R.string.notification_panel,
+                listOf(
+                    NotificationPanelStyle.INLINE to R.string.notification_panel_inline,
+                    NotificationPanelStyle.SHEET to R.string.notification_panel_sheet,
+                ),
+                settings.notificationPanel,
+            ) { v -> prefs.update { it.copy(notificationPanel = v) } }
+            Hint(stringResource(R.string.notification_panel_hint))
         }
         SwitchRow(R.string.show_calendar, settings.showCalendar) {
             prefs.update { s -> s.copy(showCalendar = it) }
@@ -100,29 +122,15 @@ fun SettingsScreen(
             prefs.update { s -> s.copy(doubleTapLock = it) }
             if (it && !accessibility) SystemActions.openAccessibilitySettings(context)
         }
-        Text(
-            stringResource(R.string.swipe_down_label),
-            color = Color.White, fontSize = 16.sp,
-            modifier = Modifier.padding(top = 12.dp),
-        )
-        for ((action, label) in listOf(
-            SwipeDownAction.NOTIFICATIONS to R.string.swipe_down_shade,
-            SwipeDownAction.SEARCH to R.string.swipe_down_search,
-            SwipeDownAction.NONE to R.string.swipe_down_none,
-        )) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { prefs.update { s -> s.copy(swipeDown = action) } },
-            ) {
-                RadioButton(
-                    selected = settings.swipeDown == action,
-                    onClick = { prefs.update { s -> s.copy(swipeDown = action) } },
-                )
-                Text(stringResource(label), color = Color.White.copy(alpha = 0.9f))
-            }
-        }
+        RadioGroup(
+            R.string.swipe_down_label,
+            listOf(
+                SwipeDownAction.NOTIFICATIONS to R.string.swipe_down_shade,
+                SwipeDownAction.SEARCH to R.string.swipe_down_search,
+                SwipeDownAction.NONE to R.string.swipe_down_none,
+            ),
+            settings.swipeDown,
+        ) { v -> prefs.update { it.copy(swipeDown = v) } }
         Hint(stringResource(R.string.gestures_hyperos_tip))
 
         Section(R.string.section_navigation)
@@ -144,7 +152,7 @@ fun SettingsScreen(
         favorites.forEachIndexed { i, app ->
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    app.label, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    app.label, color = LocalPalette.current.fg, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f),
                 )
                 TextButton(onClick = { prefs.moveFavorite(app.key, -1) }, enabled = i > 0) {
@@ -162,7 +170,7 @@ fun SettingsScreen(
         for (app in hiddenApps) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    app.label, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    app.label, color = LocalPalette.current.fg, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f),
                 )
                 TextButton(onClick = { prefs.setHidden(app.key, false) }) { Text(stringResource(R.string.unhide)) }
@@ -202,7 +210,7 @@ private fun Section(title: Int) {
 
 @Composable
 private fun Hint(text: String) {
-    Text(text, color = Color.White.copy(alpha = 0.6f), fontSize = 13.sp, modifier = Modifier.padding(vertical = 4.dp))
+    Text(text, color = LocalPalette.current.fg.copy(alpha = 0.6f), fontSize = 13.sp, modifier = Modifier.padding(vertical = 4.dp))
 }
 
 @Composable
@@ -216,8 +224,8 @@ private fun SwitchRow(title: Int, checked: Boolean, subtitle: String? = null, on
             .padding(vertical = 8.dp),
     ) {
         Column(Modifier.weight(1f)) {
-            Text(stringResource(title), color = Color.White, fontSize = 16.sp)
-            subtitle?.let { Text(it, color = Color.White.copy(alpha = 0.6f), fontSize = 13.sp) }
+            Text(stringResource(title), color = LocalPalette.current.fg, fontSize = 16.sp)
+            subtitle?.let { Text(it, color = LocalPalette.current.fg.copy(alpha = 0.6f), fontSize = 13.sp) }
         }
         Switch(checked = checked, onCheckedChange = onChange)
     }
@@ -231,7 +239,25 @@ private fun LinkRow(title: Int, status: Int?, onClick: () -> Unit) {
             .clickable(onClick = onClick)
             .padding(vertical = 12.dp),
     ) {
-        Text(stringResource(title), color = Color.White, fontSize = 16.sp)
-        status?.let { Text(stringResource(it), color = Color.White.copy(alpha = 0.6f), fontSize = 13.sp) }
+        Text(stringResource(title), color = LocalPalette.current.fg, fontSize = 16.sp)
+        status?.let { Text(stringResource(it), color = LocalPalette.current.fg.copy(alpha = 0.6f), fontSize = 13.sp) }
+    }
+}
+
+@Composable
+private fun <T> RadioGroup(title: Int, options: List<Pair<T, Int>>, selected: T, onSelect: (T) -> Unit) {
+    Text(
+        stringResource(title),
+        color = LocalPalette.current.fg, fontSize = 16.sp,
+        modifier = Modifier.padding(top = 12.dp),
+    )
+    for ((value, label) in options) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().clickable { onSelect(value) },
+        ) {
+            RadioButton(selected = selected == value, onClick = { onSelect(value) })
+            Text(stringResource(label), color = LocalPalette.current.fg.copy(alpha = 0.9f))
+        }
     }
 }

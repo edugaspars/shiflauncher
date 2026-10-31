@@ -18,6 +18,18 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import io.github.edugaspars.shiflauncher.data.NotificationPanelStyle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,22 +53,38 @@ fun AppRow(
     large: Boolean,
     shadow: Boolean,
     menuOpen: Boolean,
+    panelStyle: NotificationPanelStyle,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
     menu: @Composable () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val haptics = LocalHapticFeedback.current
-    Box(modifier) {
+    val palette = LocalPalette.current
+    var downX by remember { mutableFloatStateOf(0f) }
+    var width by remember { mutableIntStateOf(0) }
+    var panelOpen by remember(app.key) { mutableStateOf(false) }
+    val items = notifications?.items.orEmpty()
+    if (items.isEmpty()) panelOpen = false
+    Column(modifier) {
+      Box {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
+                .onSizeChanged { width = it.width }
+                .pointerInput(Unit) {
+                    awaitEachGesture {
+                        downX = awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial).position.x
+                    }
+                }
                 .combinedClickable(
-                    onClick = onClick,
+                    onClick = { if (panelOpen) panelOpen = false else onClick() },
                     onLongClick = {
                         haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onLongClick()
+                        // Metade direita + notificações = resumo; senão, menu do app.
+                        if (items.isNotEmpty() && downX > width / 2f) panelOpen = !panelOpen
+                        else onLongClick()
                     },
                 )
                 .padding(vertical = if (large) 10.dp else 8.dp),
@@ -65,7 +93,7 @@ fun AppRow(
                 val iconSize = if (large) 40.dp else 34.dp
                 Box {
                     if (app.icon != null) {
-                        Image(app.icon, contentDescription = null, modifier = Modifier.size(iconSize))
+                        Image(app.icon, contentDescription = null, colorFilter = palette.iconFilter, modifier = Modifier.size(iconSize))
                     } else {
                         Spacer(Modifier.size(iconSize))
                     }
@@ -84,7 +112,7 @@ fun AppRow(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = app.label,
-                        color = Color.White,
+                        color = LocalPalette.current.fg,
                         fontSize = if (large) 22.sp else 18.sp,
                         fontWeight = if (large) FontWeight.Normal else FontWeight.Light,
                         maxLines = 1,
@@ -103,7 +131,7 @@ fun AppRow(
                         .ifBlank { stringResource(R.string.notifications_count, notifications.count) }
                     Text(
                         text = if (notifications.count > 1) "${notifications.count} · $preview" else preview,
-                        color = Color.White.copy(alpha = 0.7f),
+                        color = LocalPalette.current.fg.copy(alpha = 0.7f),
                         fontSize = 13.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -113,6 +141,13 @@ fun AppRow(
             }
         }
         if (menuOpen) menu()
+      }
+        if (panelOpen) {
+            when (panelStyle) {
+                NotificationPanelStyle.INLINE -> InlineNotificationPanel(items) { panelOpen = false }
+                NotificationPanelStyle.SHEET -> NotificationSheet(app.label, items) { panelOpen = false }
+            }
+        }
     }
 }
 
