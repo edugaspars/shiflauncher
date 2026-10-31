@@ -18,6 +18,8 @@ data class LauncherSettings(
     val showCalendar: Boolean = false,
     val doubleTapLock: Boolean = true,
     val swipeDown: SwipeDownAction = SwipeDownAction.NOTIFICATIONS,
+    val navGestures: Boolean = false,
+    val navLine: Boolean = true,
 )
 
 const val MAX_FAVORITES = 8
@@ -42,6 +44,8 @@ class Prefs(context: Context) {
             showNotifications = sp.getBoolean("showNotifications", d.showNotifications),
             showCalendar = sp.getBoolean("showCalendar", d.showCalendar),
             doubleTapLock = sp.getBoolean("doubleTapLock", d.doubleTapLock),
+            navGestures = sp.getBoolean("navGestures", d.navGestures),
+            navLine = sp.getBoolean("navLine", d.navLine),
             swipeDown = runCatching {
                 SwipeDownAction.valueOf(sp.getString("swipeDown", null) ?: d.swipeDown.name)
             }.getOrDefault(d.swipeDown),
@@ -61,6 +65,8 @@ class Prefs(context: Context) {
             .putBoolean("showCalendar", s.showCalendar)
             .putBoolean("doubleTapLock", s.doubleTapLock)
             .putString("swipeDown", s.swipeDown.name)
+            .putBoolean("navGestures", s.navGestures)
+            .putBoolean("navLine", s.navLine)
             .apply()
     }
 

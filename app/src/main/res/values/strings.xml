@@ -49,4 +49,9 @@
     <string name="swipe_down_label">Swipe down on the home screen</string>
     <string name="swipe_down_none">Do nothing</string>
     <string name="gestures_hyperos_tip">If system gestures stop working with ShifLauncher, see the README (ADB command).</string>
+    <string name="section_navigation">System navigation</string>
+    <string name="nav_gestures">HyperOS-style navigation gestures</string>
+    <string name="nav_gestures_desc">Swipe up from the bottom: home. Swipe up and hold: recents. Swipe sideways on the bottom: previous app. Swipe in from either side: back.</string>
+    <string name="nav_line">Show gesture line</string>
+    <string name="nav_hint">To hide the system buttons, run once on the PC: adb shell settings put global force_fsg_nav_bar 1 (see README).</string>
 </resources>

@@ -125,6 +125,20 @@ fun SettingsScreen(
         }
         Hint(stringResource(R.string.gestures_hyperos_tip))
 
+        Section(R.string.section_navigation)
+        SwitchRow(
+            R.string.nav_gestures, settings.navGestures,
+            if (!accessibility) stringResource(R.string.needs_accessibility)
+            else stringResource(R.string.nav_gestures_desc),
+        ) {
+            prefs.update { s -> s.copy(navGestures = it) }
+            if (it && !accessibility) SystemActions.openAccessibilitySettings(context)
+        }
+        if (settings.navGestures) {
+            SwitchRow(R.string.nav_line, settings.navLine) { prefs.update { s -> s.copy(navLine = it) } }
+        }
+        Hint(stringResource(R.string.nav_hint))
+
         Section(R.string.section_favorites)
         if (favorites.isEmpty()) Hint(stringResource(R.string.no_favorites))
         favorites.forEachIndexed { i, app ->

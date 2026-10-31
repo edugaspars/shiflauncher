@@ -48,4 +48,9 @@
     <string name="swipe_down_label">Deslizar para baixo na tela inicial</string>
     <string name="swipe_down_none">Não fazer nada</string>
     <string name="gestures_hyperos_tip">Se os gestos do sistema pararem de funcionar com o ShifLauncher, veja o README (comando ADB).</string>
+    <string name="section_navigation">Navegação do sistema</string>
+    <string name="nav_gestures">Gestos de navegação estilo HyperOS</string>
+    <string name="nav_gestures_desc">Deslizar de baixo para cima: início. Deslizar para cima e segurar: recentes. Deslizar para os lados embaixo: app anterior. Deslizar de uma lateral para dentro: voltar.</string>
+    <string name="nav_line">Mostrar linha de gestos</string>
+    <string name="nav_hint">Para esconder os botões do sistema, rode uma vez no PC: adb shell settings put global force_fsg_nav_bar 1 (veja o README).</string>
 </resources>

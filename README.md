@@ -59,6 +59,17 @@ Para desfazer: `.\adb shell settings put global force_fsg_nav_bar 0`.
 Observações: a animação de "voltar para o início" pode ficar um pouco diferente, e algumas atualizações
 do HyperOS podem resetar a configuração (basta rodar o comando de novo).
 
+### Gestos do ShifLauncher (necessário no HyperOS 3)
+
+No HyperOS 3 o comando acima esconde os botões, mas os gestos não funcionam com launcher de terceiros.
+Por isso o ShifLauncher recria os gestos: Configurações do ShifLauncher → **Navegação do sistema** →
+**Gestos de navegação estilo HyperOS** (precisa do serviço de acessibilidade ativo).
+
+- deslizar de baixo para cima → início
+- deslizar para cima e segurar → recentes
+- deslizar para os lados na borda de baixo → app anterior
+- deslizar de qualquer lateral para dentro → voltar
+
 ### Opção 2: app de gestos
 
 Apps como **Fluid Navigation Gestures** desenham áreas de gesto por cima da tela e funcionam sem PC,
