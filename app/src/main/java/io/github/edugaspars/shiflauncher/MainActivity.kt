@@ -58,7 +58,11 @@ class MainActivity : ComponentActivity() {
     private val calendarPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { resumeTick++ }
     private val homeRole =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { resumeTick++ }
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            resumeTick++
+            // No HyperOS o pedido de "papel" às vezes é ignorado: abre a tela de apps padrão.
+            if (!isDefaultLauncher()) openDefaultAppsSettings()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge(
@@ -107,7 +111,18 @@ class MainActivity : ComponentActivity() {
                     .onSuccess { return }
             }
         }
-        startSafely(Intent(Settings.ACTION_HOME_SETTINGS))
+        openDefaultAppsSettings()
+    }
+
+    private fun isDefaultLauncher(): Boolean {
+        val home = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
+        return packageManager.resolveActivity(home, 0)?.activityInfo?.packageName == packageName
+    }
+
+    private fun openDefaultAppsSettings() {
+        startSafely(Intent(Settings.ACTION_HOME_SETTINGS)) ||
+            startSafely(Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)) ||
+            startSafely(Intent(Settings.ACTION_SETTINGS))
     }
 
     @Composable
