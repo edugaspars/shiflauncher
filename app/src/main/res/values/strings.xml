@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ShifLauncher</string>
+    <string name="accessibility_label">ShifLauncher gestures</string>
+    <string name="accessibility_description">Lets ShifLauncher lock the screen with a double tap and open the notification shade with a swipe down. It does not read any screen content.</string>
+    <string name="search_hint">Search apps</string>
+    <string name="empty_favorites">Swipe up to see all apps.\nLong press an app to add it to favorites.</string>
+    <string name="add_favorite">Add to favorites</string>
+    <string name="remove_favorite">Remove from favorites</string>
+    <string name="rename">Rename</string>
+    <string name="hide">Hide</string>
+    <string name="unhide">Unhide</string>
+    <string name="app_info">App info</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="reset_name">Original name</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="settings">Settings</string>
+    <string name="favorites_full">You can have up to %1$d favorites</string>
+    <string name="section_appearance">Appearance</string>
+    <string name="section_gestures">Gestures</string>
+    <string name="section_favorites">Favorites</string>
+    <string name="section_hidden">Hidden apps</string>
+    <string name="section_system">System</string>
+    <string name="black_background">Pure black background</string>
+    <string name="black_background_desc">Off = use your wallpaper</string>
+    <string name="show_icons">Show icons</string>
+    <string name="show_notifications">Show notifications in the list</string>
+    <string name="show_calendar">Show next calendar event</string>
+    <string name="double_tap_lock">Double tap to lock</string>
+    <string name="swipe_down_shade">Swipe down for notifications</string>
+    <string name="swipe_down_search">Swipe down to search</string>
+    <string name="gesture_desc">Swipe up opens all apps. Long press opens these settings.</string>
+    <string name="needs_accessibility">Requires the accessibility service (tap to enable)</string>
+    <string name="notification_access">Notification access</string>
+    <string name="accessibility_service">Accessibility service (lock screen)</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled — tap to enable</string>
+    <string name="set_default">Set as default launcher</string>
+    <string name="language">Language</string>
+    <string name="no_hidden">No hidden apps</string>
+    <string name="no_favorites">No favorites yet</string>
+    <string name="move_up">Up</string>
+    <string name="move_down">Down</string>
+    <string name="remove">Remove</string>
+    <string name="back">Back</string>
+    <string name="no_results">No apps found</string>
+    <string name="notifications_count">%1$d new</string>
+    <string name="swipe_down_label">Swipe down on the home screen</string>
+    <string name="swipe_down_none">Do nothing</string>
+    <string name="gestures_hyperos_tip">If system gestures stop working with ShifLauncher, see the README (ADB command).</string>
+</resources>

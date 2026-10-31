@@ -1,0 +1,35 @@
+name: Build APK
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build release APK
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease
+      - name: Rename APK
+        run: cp app/build/outputs/apk/release/app-release.apk ShifLauncher.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ShifLauncher
+          path: ShifLauncher.apk
+      - name: Publish pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: ShifLauncher build ${{ github.run_number }} (${{ github.ref_name }})
+          prerelease: true
+          files: ShifLauncher.apk

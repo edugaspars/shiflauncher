@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accessibility_label">Gestos do ShifLauncher</string>
+    <string name="accessibility_description">Permite que o ShifLauncher bloqueie a tela com dois toques e abra a aba de notificações deslizando para baixo. Não lê nenhum conteúdo da tela.</string>
+    <string name="search_hint">Buscar apps</string>
+    <string name="empty_favorites">Deslize para cima para ver todos os apps.\nToque e segure um app para adicioná-lo aos favoritos.</string>
+    <string name="add_favorite">Adicionar aos favoritos</string>
+    <string name="remove_favorite">Remover dos favoritos</string>
+    <string name="rename">Renomear</string>
+    <string name="hide">Ocultar</string>
+    <string name="unhide">Mostrar</string>
+    <string name="app_info">Informações do app</string>
+    <string name="uninstall">Desinstalar</string>
+    <string name="reset_name">Nome original</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Salvar</string>
+    <string name="settings">Configurações</string>
+    <string name="favorites_full">Você pode ter até %1$d favoritos</string>
+    <string name="section_appearance">Aparência</string>
+    <string name="section_gestures">Gestos</string>
+    <string name="section_favorites">Favoritos</string>
+    <string name="section_hidden">Apps ocultos</string>
+    <string name="section_system">Sistema</string>
+    <string name="black_background">Fundo preto</string>
+    <string name="black_background_desc">Desligado = usa seu papel de parede</string>
+    <string name="show_icons">Mostrar ícones</string>
+    <string name="show_notifications">Mostrar notificações na lista</string>
+    <string name="show_calendar">Mostrar próximo evento da agenda</string>
+    <string name="double_tap_lock">Dois toques para bloquear</string>
+    <string name="swipe_down_shade">Deslizar para baixo abre notificações</string>
+    <string name="swipe_down_search">Deslizar para baixo abre a busca</string>
+    <string name="gesture_desc">Deslizar para cima abre todos os apps. Tocar e segurar abre estas configurações.</string>
+    <string name="needs_accessibility">Precisa do serviço de acessibilidade (toque para ativar)</string>
+    <string name="notification_access">Acesso às notificações</string>
+    <string name="accessibility_service">Serviço de acessibilidade (bloquear tela)</string>
+    <string name="enabled">Ativado</string>
+    <string name="disabled">Desativado — toque para ativar</string>
+    <string name="set_default">Definir como launcher padrão</string>
+    <string name="language">Idioma</string>
+    <string name="no_hidden">Nenhum app oculto</string>
+    <string name="no_favorites">Nenhum favorito ainda</string>
+    <string name="move_up">Subir</string>
+    <string name="move_down">Descer</string>
+    <string name="remove">Remover</string>
+    <string name="back">Voltar</string>
+    <string name="no_results">Nenhum app encontrado</string>
+    <string name="notifications_count">%1$d novas</string>
+    <string name="swipe_down_label">Deslizar para baixo na tela inicial</string>
+    <string name="swipe_down_none">Não fazer nada</string>
+    <string name="gestures_hyperos_tip">Se os gestos do sistema pararem de funcionar com o ShifLauncher, veja o README (comando ADB).</string>
+</resources>
